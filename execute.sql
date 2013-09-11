@@ -97,4 +97,6 @@ begin
 insert into order_updt_status (`username`,`status`,`update_status`)
 values (new.`username`,new.`status`,'new order');
 end$$
-DELIMITER ; 
+DELIMITER ;
+
+ 
