@@ -76,7 +76,7 @@ INSERT INTO `orders` (`mainorder_id`, `ip_address`, `session_id`, `order_date`, 
 CREATE TABLE `usr_mgmnt` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `user_status` varchar(10) NOT NULL,
+  `user_status` varchar(10) DEFAULT 'disable',
   `status` varchar(255)NOT NULL,
   PRIMARY KEY (`username`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -88,3 +88,13 @@ CREATE TABLE `order_updt_status` (
   `update_status` varchar(40) NOT NULL,
   PRIMARY KEY (`username`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DELIMITER $$
+Create Trigger usr_insert after Insert
+on usr_mgmnt
+for each row
+begin
+insert into order_updt_status (`username`,`status`,`update_status`)
+values (new.`username`,new.`status`,'new order');
+end$$
+DELIMITER ; 
